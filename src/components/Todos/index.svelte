@@ -1,12 +1,7 @@
 <script>
-  let todos = [
-    { id: 1, name: "Create a svelte started App", completed: true },
-    { id: 2, name: "Create your first component", completed: true },
-    { id: 3, name: "Complete the rest of the tutorial", completed: false },
-    { id: 4, name: "Svelte tutorial from MDN Mozilla", completed: false },
-  ];
-  let totalTodos = todos.length;
-  let completedTodos = todos.filter((todo) => todo.completed).length;
+  export let todos = [];
+  $: totalTodos = todos.length;
+  $: completedTodos = todos.filter((todo) => todo.completed).length;
 </script>
 
 <section class="section">
