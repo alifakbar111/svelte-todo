@@ -9,4 +9,4 @@ install: npm install
 branches:
   only:
   - main
-script: npm run deploy:ci
+script: npm run build
