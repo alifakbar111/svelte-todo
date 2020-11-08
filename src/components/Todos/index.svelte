@@ -1,4 +1,12 @@
 <script>
+  let todos = [
+    { id: 1, name: "Create a svelte started App", completed: true },
+    { id: 2, name: "Create your first component", completed: true },
+    { id: 3, name: "Complete the rest of the tutorial", completed: false },
+    { id: 4, name: "Svelte tutorial from MDN Mozilla", completed: false },
+  ];
+  let totalTodos = todos.length;
+  let completedTodos = todos.filter((todo) => todo.completed).length;
 </script>
 
 <section class="section">
@@ -28,37 +36,24 @@
         </div>
 
         <!-- TodosStatus -->
-        <h3 class="is-size-3">2 out of 3 items completed</h3>
+        <h3 class="is-size-3">
+          {completedTodos}
+          out of
+          {totalTodos}
+          items completed
+        </h3>
 
         <!-- Todos -->
-
-        <ul role="list">
-          <li>
-            <!-- todo-1 (editing mode) -->
-            <div class="field">
-              <h5 class="is-size-5">
-                New name for 'Create a Svelte starter app'
-              </h5>
-              <input type="text" class="input" autocomplete="off" />
-            </div>
-            <div class="field">
-              <div class="columns">
-                <div class="column">
-                  <a href class="button is-fullwidth">Cancle</a>
-                </div>
-                <div class="column">
-                  <a href class="button is-primary is-fullwidth">Save</a>
-                </div>
-              </div>
-            </div>
-          </li>
-          <br />
-          <li>
-            <!-- todo-2 -->
-            <div class="field">
+        <ul>
+          {#each todos as todo, index (todo.id)}
+            <br />
+            <li>
               <label class="checkbox">
-                <input type="checkbox" />
-                Create your first component
+                <input type="checkbox" checked={todo.completed} />
+                {index},
+                {todo.name}
+                (id:
+                {todo.id})
               </label>
               <div class="field">
                 <div class="columns">
@@ -70,28 +65,12 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-          <br />
-          <li>
-            <!-- todo-3 -->
-            <div class="field">
-              <label class="checkbox">
-                <input type="checkbox" />
-                Complete the rest of the tutorial
-              </label>
-              <div class="field">
-                <div class="columns">
-                  <div class="column">
-                    <a href class="button is-fullwidth">Edit</a>
-                  </div>
-                  <div class="column">
-                    <a href class="button is-danger is-fullwidth">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
+            </li>
+          {:else}
+            <li>
+              <h5 class="is-size-">Nothing Todo Here</h5>
+            </li>
+          {/each}
         </ul>
       </div>
     </div>
