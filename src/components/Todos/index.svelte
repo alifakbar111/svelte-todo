@@ -2,6 +2,10 @@
   export let todos = [];
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter((todo) => todo.completed).length;
+
+  function removeTodo(todo) {
+    todos = todos.filter((t) => t.id !== todo.id);
+  }
 </script>
 
 <section class="section">
@@ -44,7 +48,10 @@
             <br />
             <li>
               <label class="checkbox">
-                <input type="checkbox" checked={todo.completed} />
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  on:click={() => (todo.completed = !todo.completed)} />
                 {index},
                 {todo.name}
                 (id:
@@ -53,10 +60,12 @@
               <div class="field">
                 <div class="columns">
                   <div class="column">
-                    <a href class="button is-fullwidth">Edit</a>
+                    <button class="button is-fullwidth">Edit</button>
                   </div>
                   <div class="column">
-                    <a href class="button is-danger is-fullwidth">Delete</a>
+                    <button
+                      class="button is-danger is-fullwidth"
+                      on:click={() => removeTodo(todo)}>Delete</button>
                   </div>
                 </div>
               </div>
