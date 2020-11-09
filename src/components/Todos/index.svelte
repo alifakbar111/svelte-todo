@@ -1,7 +1,11 @@
 <script>
+  import { FilterButton, Todo } from "../../components";
+
   export let todos = [];
   let newTodoName = "";
   let newTodoId;
+  let filterAll;
+
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter((todo) => todo.completed).length;
   $: {
@@ -11,6 +15,7 @@
       newTodoId = Math.max(...todos.map((t) => t.id)) + 1;
     }
   }
+
   function removeTodo(todo) {
     todos = todos.filter((t) => t.id !== todo.id);
   }
@@ -18,7 +23,10 @@
     todos = [...todos, { id: newTodoId, name: newTodoName, completed: false }];
     newTodoName = "";
   }
-  let filterAll = "all";
+  function updateTodo(todo) {
+    const i = todos.findIndex((t) => t.id === todo.id);
+    todos[i] = { ...todos[i], ...todo };
+  }
   const filterTodos = (filterAll, todos) =>
     filterAll === "active"
       ? todos.filter((t) => !t.completed)
@@ -44,33 +52,12 @@
         <div class="field">
           <button
             class="button is-fullwidth is-link"
-            on:click={addTodo}>Add</button>
+            on:click={addTodo}
+            disabled={!newTodoName}>Add</button>
         </div>
 
         <!-- Filter -->
-        <div class="columns">
-          <div class="column">
-            <button
-              class="button is-dark is-fullwidth"
-              class:is-active={filterAll === 'all'}
-              aria-pressed={filterAll === 'all'}
-              on:click={() => (filterAll = 'all')}>All</button>
-          </div>
-          <div class="column">
-            <button
-              class="button is-dark is-fullwidth"
-              class:is-active={filterAll === 'active'}
-              aria-pressed={filterAll === 'active'}
-              on:click={() => (filterAll = 'active')}>Active</button>
-          </div>
-          <div class="column">
-            <button
-              class="button is-dark is-fullwidth"
-              class:is-active={filterAll === 'completed'}
-              aria-pressed={filterAll === 'completed'}
-              on:click={() => (filterAll = 'completed')}>Completed</button>
-          </div>
-        </div>
+        <FilterButton bind:filterAll />
 
         <!-- TodosStatus -->
         <h3 class="is-size-3">
@@ -85,27 +72,10 @@
           {#each filterTodos(filterAll, todos) as todo (todo.id)}
             <br />
             <li>
-              <label class="checkbox">
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  on:click={() => (todo.completed = !todo.completed)} />
-                {todo.name}
-                (id:
-                {todo.id})
-              </label>
-              <div class="field">
-                <div class="columns">
-                  <div class="column">
-                    <button class="button is-fullwidth">Edit</button>
-                  </div>
-                  <div class="column">
-                    <button
-                      class="button is-danger is-fullwidth"
-                      on:click={() => removeTodo(todo)}>Delete</button>
-                  </div>
-                </div>
-              </div>
+              <Todo
+                {todo}
+                on:remove={(e) => removeTodo(e.detail)}
+                on:update={(e) => updateTodo(e.detail)} />
             </li>
           {:else}
             <li>
