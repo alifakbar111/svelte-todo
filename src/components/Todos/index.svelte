@@ -1,5 +1,5 @@
 <script>
-  import { FilterButton, Todo } from "../../components";
+  import { FilterButton, Todo, MoreAction } from "../../components";
 
   export let todos = [];
   let newTodoName = "";
@@ -33,6 +33,15 @@
       : filterAll === "completed"
       ? todos.filter((t) => t.completed)
       : todos;
+
+  const checkAllTodos = (completed) => {
+    todos = todos.map((t) => {
+      return { ...t, completed: completed };
+    });
+  };
+
+  const removeCompletedTodos = () =>
+    (todos = todos.filter((t) => !t.completed));
 </script>
 
 <section class="section">
@@ -83,6 +92,10 @@
             </li>
           {/each}
         </ul>
+        <hr />
+        <MoreAction {todos}
+          on:checkAll={(e) => checkAllTodos(e.detail)}
+          on:removeCompleted={removeCompletedTodos} />
       </div>
     </div>
   </div>
