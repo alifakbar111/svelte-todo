@@ -18,6 +18,13 @@
     todos = [...todos, { id: newTodoId, name: newTodoName, completed: false }];
     newTodoName = "";
   }
+  let filterAll = "all";
+  const filterTodos = (filterAll, todos) =>
+    filterAll === "active"
+      ? todos.filter((t) => !t.completed)
+      : filterAll === "completed"
+      ? todos.filter((t) => t.completed)
+      : todos;
 </script>
 
 <section class="section">
@@ -43,13 +50,25 @@
         <!-- Filter -->
         <div class="columns">
           <div class="column">
-            <a href class="button is-dark is-fullwidth ">All</a>
+            <button
+              class="button is-dark is-fullwidth"
+              class:is-active={filterAll === 'all'}
+              aria-pressed={filterAll === 'all'}
+              on:click={() => (filterAll = 'all')}>All</button>
           </div>
           <div class="column">
-            <a href class="button is-dark  is-fullwidth ">Active</a>
+            <button
+              class="button is-dark is-fullwidth"
+              class:is-active={filterAll === 'active'}
+              aria-pressed={filterAll === 'active'}
+              on:click={() => (filterAll = 'active')}>Active</button>
           </div>
           <div class="column">
-            <a href class="button is-dark is-fullwidth ">Completed</a>
+            <button
+              class="button is-dark is-fullwidth"
+              class:is-active={filterAll === 'completed'}
+              aria-pressed={filterAll === 'completed'}
+              on:click={() => (filterAll = 'completed')}>Completed</button>
           </div>
         </div>
 
@@ -63,7 +82,7 @@
 
         <!-- Todos -->
         <ul>
-          {#each todos as todo, index (todo.id)}
+          {#each filterTodos(filterAll, todos) as todo (todo.id)}
             <br />
             <li>
               <label class="checkbox">
@@ -71,7 +90,6 @@
                   type="checkbox"
                   checked={todo.completed}
                   on:click={() => (todo.completed = !todo.completed)} />
-                {index},
                 {todo.name}
                 (id:
                 {todo.id})
