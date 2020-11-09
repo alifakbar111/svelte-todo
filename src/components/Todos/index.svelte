@@ -1,10 +1,22 @@
 <script>
   export let todos = [];
+  let newTodoName = "";
+  let newTodoId;
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter((todo) => todo.completed).length;
-
+  $: {
+    if (totalTodos === 0) {
+      newTodoId = 1;
+    } else {
+      newTodoId = Math.max(...todos.map((t) => t.id)) + 1;
+    }
+  }
   function removeTodo(todo) {
     todos = todos.filter((t) => t.id !== todo.id);
+  }
+  function addTodo() {
+    todos = [...todos, { id: newTodoId, name: newTodoName, completed: false }];
+    newTodoName = "";
   }
 </script>
 
@@ -15,10 +27,17 @@
         <!-- NewTodo -->
         <h2 class="is-size-2">What needs to be done?</h2>
         <div class="field">
-          <div class="control"><textarea class="textarea" /></div>
+          <div class="control">
+            <textarea
+              class="textarea"
+              bind:value={newTodoName}
+              autocomplete="off" />
+          </div>
         </div>
         <div class="field">
-          <button class="button is-fullwidth is-link">Add</button>
+          <button
+            class="button is-fullwidth is-link"
+            on:click={addTodo}>Add</button>
         </div>
 
         <!-- Filter -->
