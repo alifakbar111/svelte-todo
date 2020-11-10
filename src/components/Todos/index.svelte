@@ -1,5 +1,5 @@
 <script>
-  import { FilterButton, Todo, MoreAction } from "../../components";
+  import { FilterButton, Todo, MoreAction, NewTodo } from "../../components";
 
   export let todos = [];
   let newTodoName = "";
@@ -19,9 +19,8 @@
   function removeTodo(todo) {
     todos = todos.filter((t) => t.id !== todo.id);
   }
-  function addTodo() {
-    todos = [...todos, { id: newTodoId, name: newTodoName, completed: false }];
-    newTodoName = "";
+  function addTodo(name) {
+    todos = [...todos, { id: newTodoId, name, completed: false }];
   }
   function updateTodo(todo) {
     const i = todos.findIndex((t) => t.id === todo.id);
@@ -49,22 +48,8 @@
     <div class="columns is-mobile is-centered">
       <div class="column is-three-fifths">
         <!-- NewTodo -->
-        <h2 class="is-size-2">What needs to be done?</h2>
-        <div class="field">
-          <div class="control">
-            <textarea
-              class="textarea"
-              bind:value={newTodoName}
-              autocomplete="off" />
-          </div>
-        </div>
-        <div class="field">
-          <button
-            class="button is-fullwidth is-link"
-            on:click={addTodo}
-            disabled={!newTodoName}>Add</button>
-        </div>
-
+        <NewTodo autofocus on:addTodo={(e) => addTodo(e.detail)} />
+        <br />
         <!-- Filter -->
         <FilterButton bind:filterAll />
 
@@ -93,7 +78,8 @@
           {/each}
         </ul>
         <hr />
-        <MoreAction {todos}
+        <MoreAction
+          {todos}
           on:checkAll={(e) => checkAllTodos(e.detail)}
           on:removeCompleted={removeCompletedTodos} />
       </div>
