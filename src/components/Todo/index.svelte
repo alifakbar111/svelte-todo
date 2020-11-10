@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher, tick } from "svelte";
+  import { selectOnFocus } from "../actions";
   export let todo;
   let editing = false;
   let name = todo.name;
@@ -46,6 +47,7 @@
           type="text"
           bind:this={nameEl}
           bind:value={name}
+          use:selectOnFocus
           autoComplete="off" />
       </div>
     </div>
