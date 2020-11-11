@@ -1,23 +1,23 @@
 <script>
-  import { FilterButton, Todo, MoreAction, NewTodo } from "../../components";
+  import {
+    FilterButton,
+    Todo,
+    MoreAction,
+    NewTodo,
+    TodoStatus,
+  } from "../../components";
 
   export let todos = [];
   let newTodoName = "";
   let newTodoId;
   let filterAll;
-
-  $: totalTodos = todos.length;
-  $: completedTodos = todos.filter((todo) => todo.completed).length;
-  $: {
-    if (totalTodos === 0) {
-      newTodoId = 1;
-    } else {
-      newTodoId = Math.max(...todos.map((t) => t.id)) + 1;
-    }
-  }
+  let todoStatus;
+  
+  $: newTodoId = todos.length ? Math.max(...todos.map((t) => t.id)) + 1 : 1;
 
   function removeTodo(todo) {
     todos = todos.filter((t) => t.id !== todo.id);
+    todoStatus.focus();
   }
   function addTodo(name) {
     todos = [...todos, { id: newTodoId, name, completed: false }];
@@ -54,12 +54,7 @@
         <FilterButton bind:filterAll />
 
         <!-- TodosStatus -->
-        <h3 class="is-size-3">
-          {completedTodos}
-          out of
-          {totalTodos}
-          items completed
-        </h3>
+        <TodoStatus bind:this={todoStatus} {todos} />
 
         <!-- Todos -->
         <ul>
