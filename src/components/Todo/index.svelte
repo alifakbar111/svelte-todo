@@ -5,6 +5,7 @@
   let editing = false;
   let name = todo.name;
   let nameEl;
+  let editButtonPressed = false;
 
   const dispatch = createEventDispatcher();
 
@@ -24,14 +25,16 @@
   function onRemove() {
     dispatch("remove", todo);
   }
-  async function onEdit() {
+  function onEdit() {
+    editButtonPressed = true;
     editing = true;
-    await tick();
-    nameEl.focus();
   }
   function onToggle() {
     update({ completed: !todo.completed });
   }
+  const focusOnInit = (node) =>
+    node && typeof node.focus === "function" && node.focus();
+  const focusEditButton = (node) => editButtonPressed && node.focus();
 </script>
 
 {#if editing}
@@ -48,6 +51,7 @@
           bind:this={nameEl}
           bind:value={name}
           use:selectOnFocus
+          use:focusOnInit
           autoComplete="off" />
       </div>
     </div>
@@ -80,7 +84,10 @@
   <div class="field">
     <div class="columns">
       <div class="column">
-        <button class="button is-fullwidth" on:click={onEdit}>Edit</button>
+        <button
+          class="button is-fullwidth"
+          use:focusEditButton
+          on:click={onEdit}>Edit</button>
       </div>
       <div class="column">
         <button
