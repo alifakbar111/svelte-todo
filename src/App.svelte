@@ -1,6 +1,7 @@
 <script>
-  import { todosData } from "./components/data";
-  import { Todos } from "./components/index";
+  import { todos } from "./components/stores";
+  import { Todos, Alert } from "./components";
 </script>
 
-<Todos todos={$todosData}/>
+<Alert />
+<Todos bind:todos={$todos} />
