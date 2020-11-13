@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, tick } from "svelte";
   import { selectOnFocus } from "../actions";
   export let todo;

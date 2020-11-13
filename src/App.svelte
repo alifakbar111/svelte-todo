@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { todos } from "./components/stores";
   import { Todos, Alert } from "./components";
 </script>
