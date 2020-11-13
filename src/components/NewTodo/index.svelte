@@ -1,12 +1,11 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  import { selectOnFocus } from "../actions";
 
-  export let autofocus = false;
+  export let autofocus: boolean = false;
   let name = "";
-  let nameEl;
-
-  onMount(() => autofocus && nameEl.focus());
+  let nameEl: HTMLElement;
 
   const addTodo = () => {
     dispatch("addTodo", name);
@@ -17,6 +16,7 @@
     name = "";
     nameEl.focus();
   };
+  onMount(() => autofocus && nameEl.focus && nameEl.focus());
 </script>
 
 <form
@@ -25,8 +25,9 @@
   <h2 class="is-size-2">What needs to be done?</h2>
   <div class="field">
     <div class="control">
-      <textarea
-        class="textarea"
+      <input
+        class="input"
+        use:selectOnFocus
         bind:this={nameEl}
         bind:value={name}
         autocomplete="off" />

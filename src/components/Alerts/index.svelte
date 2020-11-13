@@ -3,10 +3,9 @@
   import { onDestroy } from "svelte";
 
   export let ms = 3000;
-  // let visible;
-  let timeout;
+  let timeout: number;
 
-  const onMessageChange = (message, ms) => {
+  const onMessageChange = (message: string, ms: number) => {
     clearTimeout(timeout);
     if (!message) {
       $visible = false;
@@ -18,7 +17,7 @@
     }
   };
   $: onMessageChange($alert, ms);
-  onDestroy(() => setTimeout(timeout));
+  onDestroy(() => clearTimeout(timeout));
 </script>
 
 {#if $alert}

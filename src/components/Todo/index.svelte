@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { createEventDispatcher, tick } from "svelte";
+  import { createEventDispatcher } from "svelte";
   import { selectOnFocus } from "../actions";
-  export let todo;
+  import type { TodoType } from "../../types/todo.type";
+
+  export let todo: TodoType;
   let editing = false;
-  let name = todo.name;
-  let nameEl;
   let editButtonPressed = false;
+  let name = todo.name;
 
   const dispatch = createEventDispatcher();
 
-  function update(updateTodo) {
+  function update(updateTodo: Partial<TodoType>) {
     todo = { ...todo, ...updateTodo };
     dispatch("update", todo);
   }
@@ -32,9 +33,10 @@
   function onToggle() {
     update({ completed: !todo.completed });
   }
-  const focusOnInit = (node) =>
+  const focusOnInit = (node: HTMLElement) =>
     node && typeof node.focus === "function" && node.focus();
-  const focusEditButton = (node) => editButtonPressed && node.focus();
+  const focusEditButton = (node: HTMLElement) =>
+    editButtonPressed && node.focus();
 </script>
 
 {#if editing}
@@ -48,7 +50,6 @@
           class="input"
           id="todo-{todo.id}"
           type="text"
-          bind:this={nameEl}
           bind:value={name}
           use:selectOnFocus
           use:focusOnInit
@@ -73,13 +74,8 @@
   </form>
 {:else}
   <label class="checkbox">
-    <input
-      type="checkbox"
-      checked={todo.completed}
-      on:click={() => (todo.completed = !todo.completed)} />
+    <input type="checkbox" checked={todo.completed} on:click={onToggle} />
     {todo.name}
-    (id:
-    {todo.id})
   </label>
   <div class="field">
     <div class="columns">
@@ -92,7 +88,7 @@
       <div class="column">
         <button
           class="button is-danger is-fullwidth"
-          on:click={() => dispatch('remove', todo)}>Delete</button>
+          on:click={onRemove}>Delete</button>
       </div>
     </div>
   </div>

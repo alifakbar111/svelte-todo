@@ -1,6 +1,7 @@
 <script lang="ts">
-  export let todos;
-  let headingEl;
+  import type { TodoType } from "../../types/todo.type";
+  export let todos: TodoType[];
+  let headingEl: HTMLElement;
 
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter((todo) => todo.completed).length;
@@ -9,7 +10,7 @@
   }
 </script>
 
-<h3 class="is-size-3" bind:this={headingEl} tabindex="-1">
+<h3 class="is-size-3" bind:this={headingEl} tabindex={-1}>
   {completedTodos}
   out of
   {totalTodos}
