@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { Alert } from "./components";
+  import { Todos } from "./pages";
+
   import { todos } from "./components/stores";
-  import { Todos, Alert } from "./components";
 </script>
 
 <Alert />

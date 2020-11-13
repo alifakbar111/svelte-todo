@@ -1,5 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  
   import { selectOnFocus } from "../actions";
   import type { TodoType } from "../../types/todo.type";
 
@@ -7,8 +9,6 @@
   let editing = false;
   let editButtonPressed = false;
   let name = todo.name;
-
-  const dispatch = createEventDispatcher();
 
   function update(updateTodo: Partial<TodoType>) {
     todo = { ...todo, ...updateTodo };
@@ -60,6 +60,7 @@
       <div class="columns">
         <div class="column">
           <button
+            type="button"
             class="button is-fullwidth"
             on:click={onCancel}>Cancel</button>
         </div>
@@ -81,12 +82,14 @@
     <div class="columns">
       <div class="column">
         <button
+          type="button"
           class="button is-fullwidth"
           use:focusEditButton
           on:click={onEdit}>Edit</button>
       </div>
       <div class="column">
         <button
+          type="button"
           class="button is-danger is-fullwidth"
           on:click={onRemove}>Delete</button>
       </div>

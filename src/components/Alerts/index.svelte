@@ -1,18 +1,19 @@
 <script lang="ts">
-  import { alert, visible } from "../stores";
+  import { alert } from "../stores";
   import { onDestroy } from "svelte";
 
   export let ms = 3000;
+  let visible: boolean;
   let timeout: number;
 
   const onMessageChange = (message: string, ms: number) => {
     clearTimeout(timeout);
     if (!message) {
-      $visible = false;
+      visible = false;
     } else {
-      $visible = true;
+      visible = true;
       if (ms > 0) {
-        timeout = setTimeout(() => ($visible = false), ms);
+        timeout = setTimeout(() => (visible = false), ms);
       }
     }
   };
@@ -21,18 +22,18 @@
 </script>
 
 {#if $alert}
-  <div class="modal" class:is-active={$visible}>
-    <div class="modal-background" on:click={() => ($visible = false)} />
+  <div class="modal" class:is-active={visible}>
+    <div class="modal-background" on:click={() => (visible = false)} />
     <div class="notification is-primary">
       <button
         class="delete"
         aria-label="close"
-        on:click={() => ($visible = false)} />
+        on:click={() => (visible = false)} />
       <strong>{$alert}</strong>
     </div>
     <button
       class="modal-close is-large"
       aria-label="close"
-      on:click={() => ($visible = false)} />
+      on:click={() => (visible = false)} />
   </div>
 {/if}

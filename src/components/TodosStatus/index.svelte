@@ -10,7 +10,7 @@
   }
 </script>
 
-<h3 class="is-size-3" bind:this={headingEl} tabindex={-1}>
+<h3 class="is-size-3" bind:this={headingEl} tabindex="-1">
   {completedTodos}
   out of
   {totalTodos}

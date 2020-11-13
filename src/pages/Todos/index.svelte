@@ -6,7 +6,7 @@
     NewTodo,
     TodoStatus,
   } from "../../components";
-  import { alert } from "../stores";
+  import { alert } from "../../components/stores";
   import { Filter } from "../../types/filter.enum";
   import type { TodoType } from "../../types/todo.type";
 
@@ -16,15 +16,15 @@
 
   $: newTodoId = todos.length > 0 ? Math.max(...todos.map((t) => t.id)) + 1 : 1;
 
+  function addTodo(name: string) {
+    todos = [...todos, { id: newTodoId, name, completed: false }];
+    $alert = `Todo '${name}' has been added`;
+  }
+  
   function removeTodo(todo: TodoType) {
     todos = todos.filter((t) => t.id !== todo.id);
     todoStatus.focus();
     $alert = `Todo '${todo.name}' has been deleted`;
-  }
-
-  function addTodo(name: string) {
-    todos = [...todos, { id: newTodoId, name, completed: false }];
-    $alert = `Todo '${name}' has been added`;
   }
 
   function updateTodo(todo: TodoType) {

@@ -5,14 +5,14 @@
 
   export let todos: TodoType[];
   let completed = true;
-  let completedTodos: number;
+  // let completedTodos: number;
 
   const checkAll = () => {
     dispatch("checkAll", completed);
     completed = !completed;
   };
   const removeCompleted = () => dispatch("removeCompleted");
-  $: completedTodos = todos.filter((t: TodoType) => t.completed).length;
+  $: completedTodos = todos.filter((t) => t.completed).length;
 </script>
 
 <div class="field">
