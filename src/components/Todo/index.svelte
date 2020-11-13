@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  
-  import { selectOnFocus } from "../actions";
+
+  import { selectOnFocus } from "../../actions";
   import type { TodoType } from "../../types/todo.type";
 
   export let todo: TodoType;
@@ -75,7 +75,11 @@
   </form>
 {:else}
   <label class="checkbox">
-    <input type="checkbox" checked={todo.completed} on:click={onToggle} />
+    <input
+      type="checkbox"
+      id="todo-{todo.id}"
+      checked={todo.completed}
+      on:click={onToggle} />
     {todo.name}
   </label>
   <div class="field">

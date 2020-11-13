@@ -6,12 +6,12 @@
     NewTodo,
     TodoStatus,
   } from "../../components";
-  import { alert } from "../../components/stores";
+  import { alert } from "../../stores";
   import { Filter } from "../../types/filter.enum";
   import type { TodoType } from "../../types/todo.type";
 
   export let todos: TodoType[] = [];
-  let filterAll: Filter = Filter.ALL;
+  let filter: Filter = Filter.ALL;
   let todoStatus: TodoStatus;
 
   $: newTodoId = todos.length > 0 ? Math.max(...todos.map((t) => t.id)) + 1 : 1;
@@ -20,7 +20,7 @@
     todos = [...todos, { id: newTodoId, name, completed: false }];
     $alert = `Todo '${name}' has been added`;
   }
-  
+
   function removeTodo(todo: TodoType) {
     todos = todos.filter((t) => t.id !== todo.id);
     todoStatus.focus();
@@ -30,29 +30,29 @@
   function updateTodo(todo: TodoType) {
     const i = todos.findIndex((t) => t.id === todo.id);
     if (todos[i].name !== todo.name) {
-      $alert = `Todo  '${todo[i].name}' has been renamed to '${todo.name}'`;
+      $alert = `Todo '${todos[i].name}' has been renamed to '${todo.name}'`;
     }
     if (todos[i].completed !== todo.completed) {
-      $alert = `Todo '${todo[i].name}' marked as ${
+      $alert = `Todo '${todos[i].name}' marked as ${
         todo.completed ? "completed" : "active"
       }`;
     }
     todos[i] = { ...todos[i], ...todo };
   }
 
-  const filterTodos = (filterAll: Filter, todos: TodoType[]) =>
-    filterAll === Filter.ACTIVE
+  const filterTodos = (filter: Filter, todos: TodoType[]) =>
+    filter === Filter.ACTIVE
       ? todos.filter((t) => !t.completed)
-      : filterAll === Filter.COMPLETED
+      : filter === Filter.COMPLETED
       ? todos.filter((t) => t.completed)
       : todos;
 
   $: {
-    if (filterAll === Filter.ALL) {
+    if (filter === Filter.ALL) {
       $alert = "Browsing all todos";
-    } else if (filterAll === Filter.ACTIVE) {
+    } else if (filter === Filter.ACTIVE) {
       $alert = "Browsing active todos";
-    } else if (filterAll === Filter.COMPLETED) {
+    } else if (filter === Filter.COMPLETED) {
       $alert = "Browsing completed todos";
     }
   }
@@ -76,14 +76,14 @@
         <NewTodo autofocus on:addTodo={(e) => addTodo(e.detail)} />
         <br />
         <!-- Filter -->
-        <FilterButton bind:filterAll />
+        <FilterButton bind:filter />
 
         <!-- TodosStatus -->
         <TodoStatus bind:this={todoStatus} {todos} />
 
         <!-- Todos -->
         <ul>
-          {#each filterTodos(filterAll, todos) as todo (todo.id)}
+          {#each filterTodos(filter, todos) as todo (todo.id)}
             <br />
             <li>
               <Todo

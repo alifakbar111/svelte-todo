@@ -63,7 +63,7 @@ var _default = {
     name: 'app',
     file: 'public/build/bundle.js'
   },
-  plugins: [(0, _rollupPluginSvelte["default"])(_defineProperty({
+  plugins: [(0, _rollupPluginSvelte["default"])({
     // enable run-time checks when not in production
     dev: !production,
     // we'll extract any component CSS out into
@@ -72,7 +72,7 @@ var _default = {
       _css.write('bundle.css');
     },
     preprocess: (0, _sveltePreprocess["default"])()
-  }, "preprocess", (0, _sveltePreprocess["default"])())), (0, _pluginTypescript["default"])({
+  }), (0, _pluginTypescript["default"])({
     sourceMap: !production
   }), (0, _pluginReplace["default"])({
     // stringify the object       

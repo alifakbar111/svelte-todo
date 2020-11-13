@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { alert } from "../stores";
+  import { alert } from "../../stores";
   import { onDestroy } from "svelte";
 
   export let ms = 3000;
