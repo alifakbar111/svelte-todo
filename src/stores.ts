@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import { localStore } from "./localStore";
-import type { TodoType } from "../types/todo.type";
+import type { TodoType } from "./types/todo.type";
 
 export const alert = writable<string>("Welcome to the To-Do-List App");
 const initialTodos: TodoType[] = [

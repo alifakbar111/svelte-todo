@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  import { selectOnFocus } from "../actions";
+  import { selectOnFocus } from "../../actions";
 
   export let autofocus: boolean = false;
   let name = "";

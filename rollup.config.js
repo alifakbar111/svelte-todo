@@ -8,7 +8,6 @@ import typescript from '@rollup/plugin-typescript';
 import {config} from 'dotenv';
 import replace from '@rollup/plugin-replace';
 import postcss from 'rollup-plugin-postcss';
-import autoPreprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -51,7 +50,6 @@ export default {
 				css.write('bundle.css');
 			},
 			preprocess: sveltePreprocess(),
-			preprocess: autoPreprocess()
 		}),
 		typescript({ sourceMap: !production }),
 		replace({
