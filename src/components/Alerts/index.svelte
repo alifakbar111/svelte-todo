@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { alert, visible } from "../stores";
   import { onDestroy } from "svelte";
 
@@ -23,7 +23,7 @@
 
 {#if $alert}
   <div class="modal" class:is-active={$visible}>
-    <div class="modal-background" on:click={() => ($visible = false)}/>
+    <div class="modal-background" on:click={() => ($visible = false)} />
     <div class="notification is-primary">
       <button
         class="delete"

@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { localStore } from "../components/localStore";
+import { localStore } from "./localStore";
 
 export let visible = writable(false);
 export const alert = writable("Welcome to the To-Do-List App");

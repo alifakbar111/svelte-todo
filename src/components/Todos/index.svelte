@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import {
     FilterButton,
     Todo,
     MoreAction,
     NewTodo,
     TodoStatus,
-  } from "../../components";
+  } from "..";
   import { alert } from "../stores";
 
   export let todos = [];
