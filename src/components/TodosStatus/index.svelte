@@ -1,6 +1,7 @@
 <script lang="ts">
-  export let todos;
-  let headingEl;
+  import type { TodoType } from "../../types/todo.type";
+  export let todos: TodoType[];
+  let headingEl: HTMLElement;
 
   $: totalTodos = todos.length;
   $: completedTodos = todos.filter((todo) => todo.completed).length;

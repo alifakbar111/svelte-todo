@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { createEventDispatcher, tick } from "svelte";
-  import { selectOnFocus } from "../actions";
-  export let todo;
-  let editing = false;
-  let name = todo.name;
-  let nameEl;
-  let editButtonPressed = false;
-
+  import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  
+  import { selectOnFocus } from "../actions";
+  import type { TodoType } from "../../types/todo.type";
 
-  function update(updateTodo) {
+  export let todo: TodoType;
+  let editing = false;
+  let editButtonPressed = false;
+  let name = todo.name;
+
+  function update(updateTodo: Partial<TodoType>) {
     todo = { ...todo, ...updateTodo };
     dispatch("update", todo);
   }
@@ -32,9 +33,10 @@
   function onToggle() {
     update({ completed: !todo.completed });
   }
-  const focusOnInit = (node) =>
+  const focusOnInit = (node: HTMLElement) =>
     node && typeof node.focus === "function" && node.focus();
-  const focusEditButton = (node) => editButtonPressed && node.focus();
+  const focusEditButton = (node: HTMLElement) =>
+    editButtonPressed && node.focus();
 </script>
 
 {#if editing}
@@ -48,7 +50,6 @@
           class="input"
           id="todo-{todo.id}"
           type="text"
-          bind:this={nameEl}
           bind:value={name}
           use:selectOnFocus
           use:focusOnInit
@@ -59,6 +60,7 @@
       <div class="columns">
         <div class="column">
           <button
+            type="button"
             class="button is-fullwidth"
             on:click={onCancel}>Cancel</button>
         </div>
@@ -73,26 +75,23 @@
   </form>
 {:else}
   <label class="checkbox">
-    <input
-      type="checkbox"
-      checked={todo.completed}
-      on:click={() => (todo.completed = !todo.completed)} />
+    <input type="checkbox" checked={todo.completed} on:click={onToggle} />
     {todo.name}
-    (id:
-    {todo.id})
   </label>
   <div class="field">
     <div class="columns">
       <div class="column">
         <button
+          type="button"
           class="button is-fullwidth"
           use:focusEditButton
           on:click={onEdit}>Edit</button>
       </div>
       <div class="column">
         <button
+          type="button"
           class="button is-danger is-fullwidth"
-          on:click={() => dispatch('remove', todo)}>Delete</button>
+          on:click={onRemove}>Delete</button>
       </div>
     </div>
   </div>
